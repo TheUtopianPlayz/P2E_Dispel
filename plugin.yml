@@ -1,0 +1,14 @@
+a---
+name: P2E_Dispel
+version: 0.0.1
+main: TheUtopian\p2e_dispel\P2E_Dispel
+api: 3.11.0
+
+commands:
+  dispel:
+    description: "Removes Enchant From Held Item, and returns it!"
+    permission: dispel.cmd
+permissions:
+  dispel.cmd:
+    default: op
+...
