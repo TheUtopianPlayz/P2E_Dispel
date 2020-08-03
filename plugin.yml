@@ -6,7 +6,7 @@ api: 3.11.0
 
 commands:
   dispel:
-    description: "Removes Enchant From Held Item, and returns it!"
+    description: "Removes enchant from held item, and returns it!"
     permission: dispel.cmd
 permissions:
   dispel.cmd:
