@@ -5,5 +5,5 @@ main: TheUtopian\p2e_dispel\P2E_Dispel
 api: 3.11.0
 depend:
   - "PiggyCustomEnchants"
-  - "EconemyAPI"
+  - "EconomyAPI"
 ...
