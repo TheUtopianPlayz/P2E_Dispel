@@ -6,6 +6,7 @@ namespace TheUtopian\p2e_dispel\command;
 
 use DaPigGuy\PiggyCustomEnchants\CustomEnchantManager;
 use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchantIds;
+use onebone\economyapi\EconomyAPI;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
@@ -15,15 +16,18 @@ use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 use TheUtopian\p2e_dispel\P2E_Dispel;
 
-class DispelCommand extends Command implements PluginIdentifiableCommand{
+class DispelCommand extends Command implements PluginIdentifiableCommand
+{
 
     private $notAllowed = [CustomEnchantIds::AUTOREPAIR, CustomEnchantIds::SOULBOUND];
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct("dispel", "Remove spells from items", "/dispel <enchantName>");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args){
+    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    {
         if (!$sender instanceof Player) {
             $sender->sendMessage("§cThis command can be used only in game!");
             return true;
@@ -56,20 +60,25 @@ class DispelCommand extends Command implements PluginIdentifiableCommand{
         $book = ItemFactory::get(Item::ENCHANTED_BOOK);
         $book->addEnchantment($currentEnchant);
         $inventory = $sender->getInventory();
-        if(!$inventory->canAddItem($book)){
-            $sender->sendMessage("Not enough room in your inventory!");
+        if (!$inventory->canAddItem($book)) {
+            $sender->sendMessage("§o§l§cNot enough room in your inventory!");
             return true;
         }
-
+        $EconomyApi = EconomyAPI::getInstance();
+        $cost = "100000";
+        if ($EconomyApi->myMoney($sender) < $cost) {
+            $sender->sendMessage("§o§l§cNot enough money!");
+        }
+        $EconomyApi->reduceMoney($sender->getName(), $cost);
         $item->removeEnchantment($testEnchant->getId());
         $inventory->setItemInHand($item);
         $inventory->addItem($book);
-        $sender->sendMessage("§o§l§aEnchantment successfully removed.");
+        $sender->sendMessage("§o§l§aEnchantment successfully removed!");
         return true;
     }
 
-    public function getPlugin() : Plugin{
+    public function getPlugin(): Plugin
+    {
         return P2E_Dispel::getInstance();
     }
-
 }
