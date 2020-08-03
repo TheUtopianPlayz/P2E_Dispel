@@ -58,7 +58,7 @@ class DispelCommand extends Command implements PluginIdentifiableCommand{
         $inventory = $sender->getInventory();
         if(!$inventory->canAddItem($book)){
             $sender->sendMessage("Not enough room in your inventory!");
-            return;
+            return true;
         }
 
         $item->removeEnchantment($testEnchant->getId());
